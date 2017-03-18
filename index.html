@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="description" content="Play now and discover why this game is so addictive! Swipe rows and columns to move blue, white and red tiles. Join 5 or more tiles of the same color and score!">
+        <title>5+ Puzzle Game - Casual, Simple and Addictive</title>
+        <link rel="icon" type="image/png" href="favicon.png" sizes="32x32">
+        <link rel="stylesheet" href="game.css">
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+            
+            ga('create', 'UA-78771935-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+    </head>
+    
+    <body>
+        
+        <div id="fb-root"></div>
+        <script>
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=961474663894011";
+                fjs.parentNode.insertBefore(js, fjs);
+              }(document, 'script', 'facebook-jssdk'));
+        </script>
+        
+        <div id="container">
+            
+            <div id="score-box">
+                
+                <div class="column">
+                    <div class="label">SCORE</div>
+                    <div id="score" class="value">0</div>
+                </div>
+                
+                <div class="column">
+                    <div class="label">BEST</div>
+                    <div id="best" class="value">0</div>
+                </div>
+                
+                <div class="column button" id="new-game">
+                    NEW GAME
+                </div>
+                
+            </div>
+            
+            <div id="game-box">
+                
+                <div id="demo-box" class="hidden">
+                    <img src="left.png" id="l" class="arrow left-right">
+                    <img src="right.png" id="r" class="arrow left-right">
+                    <img src="down.png" id="d" class="arrow up-down">
+                    <img src="up.png" id="u" class="arrow up-down">
+                </div>
+                
+                <div id="game-over-box">
+                    <p>GAME OVER!</p>
+                    <img src="logo.png">
+                    <br>
+                    <div class="fb-like" data-href="http://game5plus.com" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+                    <br>
+                    <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                </div>
+                
+                <div id="grid">
+                    <div class="cell a" data-cell="a"></div>
+                    <div class="cell b" data-cell="b"></div>
+                    <div class="cell c" data-cell="c"></div>
+                    <div class="cell d" data-cell="d"></div>
+                    <div class="cell e" data-cell="e"></div>
+                    <div class="cell f" data-cell="f"></div>
+                    <div class="cell g" data-cell="g"></div>
+                    <div class="cell h" data-cell="h"></div>
+                    <div class="cell i" data-cell="i"></div>
+                    <div class="cell j" data-cell="j"></div>
+                    <div class="cell k" data-cell="k"></div>
+                    <div class="cell l" data-cell="l"></div>
+                    <div class="cell m" data-cell="m"></div>
+                    <div class="cell n" data-cell="n"></div>
+                    <div class="cell o" data-cell="o"></div>
+                    <div class="cell p" data-cell="p"></div>
+                </div>
+                
+                <div id="tile-box"></div>
+                
+            </div>
+            
+            <p id="instruction">
+                <img src="logo.png">
+                <span id="demo-game" class="button">DEMO</span>
+                <span id="stop-demo-game" class="button hidden">STOP DEMO</span>
+                Swipe rows and columns to move tiles. Join at least 5 tiles of the same color and score.
+            </p>
+            
+        </div>
+        
+        <script src="demo.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="game.js" type="text/javascript" charset="UTF-8"></script>
+        
+    </body>
+    
+</html>
