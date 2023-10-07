@@ -1,7 +1,7 @@
 /**
  * Demo class
  */
-var Demo = function(game) {
+const Demo = function(game) {
     
     this.game = game;
     
@@ -27,19 +27,19 @@ Demo.prototype.start = function() {
     this.game.demoButton.classList.add('hidden');
     this.game.stopDemoButton.classList.remove('hidden');
     
-    var self = this;
+    const self = this;
     
-    var move = function() {
+    const move = function() {
         
-        if (self.index == self.length) {
+        if (self.index === self.length) {
             self.stop();
             return false;
         }
         
-        var move = self.moves[self.index];
+        const move = self.moves[self.index];
         self.index++;
-        var cell = move[0];
-        var direction = move[1];
+        const cell = move[0];
+        const direction = move[1];
         self.color = move[2];
         
         self.showArrow(cell, direction);
@@ -85,17 +85,16 @@ Demo.prototype.stop = function() {
  */
 Demo.prototype.showArrow = function(cell, direction) {
     
-    var arrow = document.getElementById(direction);
+    const arrow = document.getElementById(direction);
     arrow.classList.add(cell);
+
     if (!freeze) {
-        
-    
-    setTimeout(
-        function() {
-            arrow.classList.remove(cell);
-        },
-        600
-    );
+        setTimeout(
+            function() {
+                arrow.classList.remove(cell);
+            },
+            600
+        );
     }
 };
 

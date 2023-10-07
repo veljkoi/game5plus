@@ -1,9 +1,10 @@
-var freeze = false;
+const freeze = false;
+
 /**
  * Game class
  * @returns {Game}
  */
-var Game = function() {
+const Game = function() {
     
     this.grid = document.getElementById('grid');
     this.tileBox = document.getElementById('tile-box');
@@ -83,17 +84,17 @@ Game.prototype.restoreState = function() {
     
     if (localStorage) {
         
-        var tilesJson = localStorage.getItem('tiles');
+        const tilesJson = localStorage.getItem('tiles');
         if (tilesJson) {
-            var tiles = JSON.parse(tilesJson);
-            var tile;
-            for (var i = 0; i < tiles.length; i++) {
+            const tiles = JSON.parse(tilesJson);
+            let tile;
+            for (let i = 0; i < tiles.length; i++) {
                 tile = tiles[i];
                 this.tiles[tile.cell] = new Tile(tile.cell, tile.color, this.tileBox);
             }
         }
         
-        var best = localStorage.getItem('best');
+        const best = localStorage.getItem('best');
         if (best) {
             this.best = parseInt(best);
             if (isNaN(this.best)) {
@@ -102,7 +103,7 @@ Game.prototype.restoreState = function() {
             this.bestDisplay.textContent = this.best;
         }
         
-        var score = localStorage.getItem('score');
+        const score = localStorage.getItem('score');
         if (score) {
             this.score = parseInt(score);
             if (isNaN(this.score)) {
@@ -111,20 +112,20 @@ Game.prototype.restoreState = function() {
             this.updateScoreDisplay();
         }
         
-        var over = localStorage.getItem('gameOver');
+        const over = localStorage.getItem('gameOver');
         if (over) {
-            this.gameOver = over == 'true' ? true : false;
+            this.gameOver = over === 'true';
             if (this.gameOver) {
                 this.gameOverBox.classList.add('game-over');
             }
         }
         
-        var colorPool = localStorage.getItem('colorPool');
+        const colorPool = localStorage.getItem('colorPool');
         if (colorPool) {
             this.colorPool = JSON.parse(colorPool);
         }
         
-        var scoreHits = localStorage.getItem('scoreHits');
+        const scoreHits = localStorage.getItem('scoreHits');
         if (scoreHits) {
             this.scoreHits = parseInt(scoreHits);
             if (isNaN(this.scoreHits)) {
@@ -142,7 +143,7 @@ Game.prototype.restoreStateBest = function() {
     
     if (localStorage) {
         
-        var best = localStorage.getItem('best');
+        const best = localStorage.getItem('best');
         if (best) {
             this.best = parseInt(best);
             if (isNaN(this.best)) {
@@ -169,8 +170,9 @@ Game.prototype.saveState = function() {
         localStorage.setItem('scoreHits', this.scoreHits);
         localStorage.setItem('colorPool', JSON.stringify(this.colorPool));
         
-        var tiles = [], tile;
-        for (var cell in this.tiles) {
+        const tiles = [];
+        let tile;
+        for (let cell in this.tiles) {
             tile = this.tiles[cell];
             if (tile) {
                 tiles.push({cell: cell, color: tile.color});
@@ -187,7 +189,7 @@ Game.prototype.saveState = function() {
  */
 Game.prototype.bindEvents = function() {
     
-    var self = this;
+    const self = this;
     
     // NEW GAME button
     this.newGameButton.onclick = function() {
@@ -210,7 +212,7 @@ Game.prototype.bindEvents = function() {
     // TOUCH EVENTS
     
     this.ms = window.navigator.msPointerEnabled;
-    var touchStartEvent, touchMoveEvent, touchEndEvent;
+    let touchStartEvent, touchMoveEvent, touchEndEvent;
     
     if (this.ms) {
         touchStartEvent = "MSPointerDown";
@@ -334,13 +336,13 @@ Game.prototype.touchEndHandler = function(event) {
     
     if (!this.touchStartParams.cell) {
         
-        if ((!this.ms && event.touches.length == 0) || event.targetTouches.length == 0) {
+        if ((!this.ms && event.touches.length === 0) || event.targetTouches.length === 0) {
             this.blockMove = false;
         }
         return;
     }
     
-    var x, y;
+    let x, y;
     
     if (this.ms) {
         x = event.pageX;
@@ -350,14 +352,14 @@ Game.prototype.touchEndHandler = function(event) {
         y = event.changedTouches[0].clientY;
     }
     
-    var dX = x - this.touchStartParams.x;
-    var absX = Math.abs(dX);
+    const dX = x - this.touchStartParams.x;
+    const absX = Math.abs(dX);
     
-    var dY = y - this.touchStartParams.y;
-    var absY = Math.abs(dY);
+    const dY = y - this.touchStartParams.y;
+    const absY = Math.abs(dY);
     
     if (Math.max(absX, absY) > 10) {
-        var direction = absX > absY ? (dX > 0 ? 'r' : 'l') : (dY > 0 ? 'd' : 'u');
+        const direction = absX > absY ? (dX > 0 ? 'r' : 'l') : (dY > 0 ? 'd' : 'u');
         this.moveTiles(this.touchStartParams.cell, direction);
     } else {
         this.blockMove = false;
@@ -406,13 +408,13 @@ Game.prototype.mouseUpHandler = function(event) {
         return;
     }
     
-    var dX = event.clientX - this.touchStartParams.x;
-    var absX = Math.abs(dX);
-    var dY = event.clientY - this.touchStartParams.y;
-    var absY = Math.abs(dY);
+    const dX = event.clientX - this.touchStartParams.x;
+    const absX = Math.abs(dX);
+    const dY = event.clientY - this.touchStartParams.y;
+    const absY = Math.abs(dY);
     
     if (Math.max(absX, absY) > 10) {
-        var direction = absX > absY ? (dX > 0 ? 'r' : 'l') : (dY > 0 ? 'd' : 'u');
+        const direction = absX > absY ? (dX > 0 ? 'r' : 'l') : (dY > 0 ? 'd' : 'u');
         this.moveTiles(this.touchStartParams.cell, direction);
     } else {
         this.blockMove = false;
@@ -427,12 +429,12 @@ Game.prototype.mouseUpHandler = function(event) {
  */
 Game.prototype.moveTiles = function(cell, direction) {
     
-    var cells = Game.cellDirectionMap[cell][direction].slice(0);
+    const cells = Game.cellDirectionMap[cell][direction].slice(0);
     
     this.movedCells = [];
     
-    var tile;
-    for (var i = 0; i < 4; i++) {
+    let tile;
+    for (let i = 0; i < 4; i++) {
         cell = cells[i];
         tile = this.tiles[cell];
         if (tile) {
@@ -457,8 +459,8 @@ Game.prototype.moveTiles = function(cell, direction) {
  */
 Game.prototype.moveTile = function(tile, direction) {
     
-    var oldCell = tile.cell;
-    var newCell = Game.cellDirectionBorderMap[oldCell][direction];
+    const oldCell = tile.cell;
+    const newCell = Game.cellDirectionBorderMap[oldCell][direction];
     
     if (newCell && !this.tiles[newCell]) {
         tile.move(newCell);
@@ -475,7 +477,7 @@ Game.prototype.moveTile = function(tile, direction) {
  */
 Game.prototype.addNewTile = function(cell, direction) {
     
-    var color = this.generateRandomColor();
+    const color = this.generateRandomColor();
     this.tiles[cell] = new Tile(cell, color, this.tileBox);
     this.movedCells.push(cell);
 };
@@ -492,27 +494,27 @@ Game.prototype.generateRandomColor = function() {
         return this.demo.color;
     }
     
-    var levelCoefficient = (4 - Math.floor(this.scoreHits / Game.levelStep)) / 4;
+    let levelCoefficient = (4 - Math.floor(this.scoreHits / Game.levelStep)) / 4;
     if (levelCoefficient < 0) {
         levelCoefficient = 0;
     }
     
-    var whiteArea = 1 / 3;
-    var redArea = 2 / 3;
+    let whiteArea = 1 / 3;
+    let redArea = 2 / 3;
     
     if (levelCoefficient < 1) {
-        var white = this.colorPool[0];
-        var red = this.colorPool[1];
-        var blue = this.colorPool[2];
+        const white = this.colorPool[0];
+        const red = this.colorPool[1];
+        const blue = this.colorPool[2];
         
-        var pool = white + red + blue;
+        const pool = white + red + blue;
         
         whiteArea = (white / pool) * (1 - levelCoefficient) + levelCoefficient / 3;
         redArea = (red / pool) * (1 - levelCoefficient) + levelCoefficient / 3 + whiteArea;
     }
     
-    var rnd = Math.random();
-    var newColor;
+    const rnd = Math.random();
+    let newColor;
     
     if (rnd < whiteArea) {
         newColor = 0;
@@ -535,7 +537,7 @@ Game.prototype.generateRandomColor = function() {
  */
 Game.prototype.check5plus = function() {
     
-    var movedCell,
+    let movedCell,
         aggregatedCells, aggregatedCount, aggregatedScore = 0,
         tempCells, tempCell, tempTile,
         borderCells, borderCell, borderTile;
@@ -552,16 +554,16 @@ Game.prototype.check5plus = function() {
             tempTile = this.tiles[tempCell];
             borderCells = Game.cellBorderMap[tempCell];
             
-            for (var i = 0; i < borderCells.length; i++) {
+            for (let i = 0; i < borderCells.length; i++) {
                 
                 borderCell = borderCells[i];
                 borderTile = this.tiles[borderCell];
                 
-                if (borderTile && borderTile.color == tempTile.color && aggregatedCells.indexOf(borderCell) === -1) {
+                if (borderTile && borderTile.color === tempTile.color && aggregatedCells.indexOf(borderCell) === -1) {
                     aggregatedCells.push(borderCell);
                     tempCells.push(borderCell);
                     
-                    var i = this.movedCells.indexOf(borderCell);
+                    let i = this.movedCells.indexOf(borderCell);
                     if (i > -1) {
                         this.movedCells.splice(i, 1);
                     }
@@ -592,7 +594,7 @@ Game.prototype.check5plus = function() {
  */
 Game.prototype.checkGameOver = function() {
     
-    if (document.getElementsByClassName('tile-joined').length == 0 && document.getElementsByClassName('tile').length == 16) {
+    if (document.getElementsByClassName('tile-joined').length === 0 && document.getElementsByClassName('tile').length === 16) {
         this.gameOver = true;
         this.gameOverBox.classList.add('game-over');
         this.saveState();
@@ -606,7 +608,7 @@ Game.prototype.checkGameOver = function() {
  */
 Game.prototype.getScore = function(tilesCount) {
     
-    var half = tilesCount / 2;
+    const half = tilesCount / 2;
     return Math.ceil(half) * (Math.floor(half) * 2 + 1);
 };
 
@@ -618,19 +620,19 @@ Game.prototype.getScore = function(tilesCount) {
  */
 Game.prototype.removeTiles = function(cells, color) {
     
-    var self = this;
-    var cellsCount = cells.length;
+    const self = this;
+    const cellsCount = cells.length;
     cells.sort();
     
-    for (var i = 0; i < cellsCount; i++) {
+    for (let i = 0; i < cellsCount; i++) {
         this.tiles[cells[i]] = null;
     }
     
-    var selector = '.tile.' + cells.join(', .tile.');
-    var tileElements = this.tileBox.querySelectorAll(selector);
+    const selector = '.tile.' + cells.join(', .tile.');
+    const tileElements = this.tileBox.querySelectorAll(selector);
     
-    var cell, tileScore;
-    for (var i = 0; i < cellsCount; i++) {
+    let cell, tileScore;
+    for (let i = 0; i < cellsCount; i++) {
         cell = tileElements[i].dataset.cell;
         tileScore = cells.indexOf(cell) + 1;
         tileElements[i].firstChild.textContent = tileScore;
@@ -643,7 +645,7 @@ Game.prototype.removeTiles = function(cells, color) {
     
     setTimeout(function() {
         if (!freeze) {
-            for (var i = 0; i < cellsCount; i++) {
+            for (let i = 0; i < cellsCount; i++) {
                 self.tileBox.removeChild(tileElements[i]);
             }
         }
@@ -665,7 +667,7 @@ Game.prototype.updateScoreDisplay = function(addedScore) {
     this.scoreDisplay.textContent = this.score;
     
     if (addedScore) {
-        var element = document.createElement('div');
+        const element = document.createElement('div');
         element.classList.add('new-score');
         if (freeze) {
             element.classList.add('freeze');
@@ -688,7 +690,7 @@ Game.prototype.updateScoreDisplay = function(addedScore) {
  * @param {DOM} tileBox Tile container div element
  * @returns {Tile}
  */
-var Tile = function(cell, color, tileBox) {
+const Tile = function(cell, color, tileBox) {
     
     this.cell = cell;
     this.color = color;
@@ -697,7 +699,7 @@ var Tile = function(cell, color, tileBox) {
     this.element.className = 'tile tile-' + this.color + ' ' + this.cell;
     this.element.dataset.cell = this.cell;
     
-    var innerElement = document.createElement('div');
+    const innerElement = document.createElement('div');
     innerElement.className = 'tile-inner';
     this.element.appendChild(innerElement);
     
